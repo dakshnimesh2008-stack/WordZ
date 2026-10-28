@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unzip project
+        run: unzip -q WordzKeyboard.zip
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -24,9 +27,10 @@ jobs:
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Build debug APK
+        working-directory: WordzKeyboard
         run: gradle assembleDebug --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
           name: WordzKeyboard-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: WordzKeyboard/app/build/outputs/apk/debug/app-debug.apk
